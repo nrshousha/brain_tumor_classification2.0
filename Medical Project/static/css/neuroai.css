@@ -316,62 +316,7 @@ body {
   font-size: 0.88rem;
 }
 
-/* ── Sample MRI Quick Select Section ──────────────────────────────────────── */
-.samples-section {
-  margin-top: 24px;
-}
-.samples-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 14px;
-}
-.samples-title {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-.samples-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-  gap: 12px;
-}
-.sample-card {
-  background: rgba(15, 23, 42, 0.6);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 8px;
-  cursor: pointer;
-  text-align: center;
-  transition: all 0.2s ease;
-  position: relative;
-  overflow: hidden;
-}
-.sample-card:hover {
-  transform: translateY(-3px);
-  border-color: var(--primary);
-  background: rgba(59, 130, 246, 0.12);
-  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
-}
-.sample-card.active {
-  border-color: var(--cyan);
-  background: rgba(6, 182, 212, 0.15);
-  box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
-}
-.sample-img-thumb {
-  width: 100%;
-  height: 90px;
-  object-fit: cover;
-  border-radius: 6px;
-  margin-bottom: 6px;
-}
-.sample-name {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #cbd5e1;
-}
+
 
 /* ── Image Preview Area ───────────────────────────────────────────────────── */
 #preview-wrap {

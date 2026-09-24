@@ -74,31 +74,6 @@
           <div id="preview-label"></div>
         </div>
 
-        <!-- Sample MRI Quick-Select Buttons -->
-        <div class="samples-section">
-          <div class="samples-header">
-            <span class="samples-title">⚡ Quick Test with Sample MRI Scans:</span>
-          </div>
-          <div class="samples-grid">
-            <div class="sample-card" onclick="loadSample('glioma_Te-glTr_0000.jpg', 'Sample: Glioma MRI')">
-              <img class="sample-img-thumb" src="{{ url_for('static', filename='images/glioma_Te-glTr_0000.jpg') }}" alt="Glioma sample"/>
-              <div class="sample-name">Glioma</div>
-            </div>
-            <div class="sample-card" onclick="loadSample('Te-me_0016.jpg', 'Sample: Meningioma MRI')">
-              <img class="sample-img-thumb" src="{{ url_for('static', filename='images/Te-me_0016.jpg') }}" alt="Meningioma sample"/>
-              <div class="sample-name">Meningioma</div>
-            </div>
-            <div class="sample-card" onclick="loadSample('pituitary_Te-pi_0017.jpg', 'Sample: Pituitary MRI')">
-              <img class="sample-img-thumb" src="{{ url_for('static', filename='images/pituitary_Te-pi_0017.jpg') }}" alt="Pituitary sample"/>
-              <div class="sample-name">Pituitary</div>
-            </div>
-            <div class="sample-card" onclick="loadSample('Te-no_0027.jpg', 'Sample: Healthy MRI')">
-              <img class="sample-img-thumb" src="{{ url_for('static', filename='images/Te-no_0027.jpg') }}" alt="Healthy sample"/>
-              <div class="sample-name">No Tumor</div>
-            </div>
-          </div>
-        </div>
-
         <!-- Submit Button -->
         <button type="submit" class="btn-primary-action" id="submitBtn" disabled>
           <span class="btn-text">🔬 &nbsp; Analyze MRI Scan</span>
@@ -211,53 +186,9 @@
       }
     });
 
-    // Quick-select sample loader
-    async function loadSample(fileName, displayName) {
-      try {
-        submitBtn.disabled = true;
-        previewL.textContent = 'Loading ' + displayName + '...';
-        previewW.style.display = 'block';
-
-        const response = await fetch('/static/images/' + fileName);
-        const blob = await response.blob();
-        const file = new File([blob], fileName, { type: blob.type || 'image/jpeg' });
-        
-        try {
-          const dt = new DataTransfer();
-          dt.items.add(file);
-          input.files = dt.files;
-        } catch (e) {
-          console.warn('DataTransfer not supported:', e);
-        }
-
-        showPreview(file);
-        previewL.textContent = displayName;
-      } catch (err) {
-        console.error('Error loading sample image:', err);
-      }
-    }
-
-    // Submit handler: use AJAX fallback if native form files not populated
-    form.addEventListener('submit', async (e) => {
+    // Submit handler
+    form.addEventListener('submit', () => {
       submitBtn.classList.add('loading');
-      
-      // If input.files is empty but we have a loaded sample file
-      if ((!input.files || input.files.length === 0) && currentFile) {
-        e.preventDefault();
-        const fd = new FormData();
-        fd.append('bt_image', currentFile);
-        try {
-          const res = await fetch('/', { method: 'POST', body: fd });
-          if (res.redirected) {
-            window.location.href = res.url;
-          } else {
-            window.location.href = '/pred_page';
-          }
-        } catch (err) {
-          console.error(err);
-          submitBtn.classList.remove('loading');
-        }
-      }
     });
 
     // Chatbot functionality
