@@ -1,14 +1,16 @@
-# 🧠 NeuroAI — Brain Tumor Classification & Care Companion
+# 🧠 NeuroAI — Brain Tumor Classification & Patient Care Companion
 
 <div align="center">
 
-![NeuroAI Banner](https://img.shields.io/badge/NeuroAI-Brain%20Tumor%20Classification-blueviolet?style=for-the-badge&logo=brain)
-![Python](https://img.shields.io/badge/Python-3.10-blue?style=for-the-badge&logo=python)
-![PyTorch](https://img.shields.io/badge/PyTorch-ResNet50-EE4C2C?style=for-the-badge&logo=pytorch)
-![TensorFlow](https://img.shields.io/badge/TensorFlow-EfficientNetB0-FF6F00?style=for-the-badge&logo=tensorflow)
-![Flask](https://img.shields.io/badge/Flask-Web%20App-000000?style=for-the-badge&logo=flask)
+![NeuroAI Banner](https://img.shields.io/badge/NeuroAI-Brain%20Tumor%20Diagnostics-059669?style=for-the-badge&logo=brain&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12-10b981?style=for-the-badge&logo=python&logoColor=white)
+![PyTorch](https://img.shields.io/badge/PyTorch-ResNet50-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)
+![TensorFlow](https://img.shields.io/badge/TensorFlow-EfficientNetB0-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-Web%20App-000000?style=for-the-badge&logo=flask&logoColor=white)
 
-**An AI-powered web application that classifies brain tumors from MRI scans using two deep learning models simultaneously, paired with an intelligent care chatbot for patient support.**
+**An AI-powered medical diagnostic platform that classifies brain tumors from MRI scans using dual deep learning models simultaneously, coupled with the interactive NeuroCare patient care companion.**
+
+[Quick Start](#-quick-start) • [Architecture](#-system-architecture) • [AI Models](#-ai-models) • [API Reference](#-api-reference) • [Features](#-key-features)
 
 </div>
 
@@ -17,301 +19,205 @@
 ## 📌 Table of Contents
 
 - [Project Overview](#-project-overview)
-- [The Problem](#-the-problem)
-- [Our Solution](#-our-solution)
+- [Key Features](#-key-features)
 - [System Architecture](#-system-architecture)
 - [AI Models](#-ai-models)
-- [Key Features](#-key-features)
-- [Tech Stack](#-tech-stack)
 - [Project Structure](#-project-structure)
-- [Dataset](#-dataset)
-- [How to Run](#-how-to-run)
-- [NeuroCare Chatbot](#-neurocare-chatbot)
-- [Team](#-team)
+- [Quick Start & Installation](#-quick-start)
+- [API Reference](#-api-reference)
+- [NeuroCare AI Chatbot](#-neurocare-ai-chatbot)
+- [Dataset Details](#-dataset-details)
 
 ---
 
 ## 🎯 Project Overview
 
-**NeuroAI** is an end-to-end AI medical assistant designed to:
+**NeuroAI** is an end-to-end medical AI platform designed to empower clinicians and patients:
 
-1. **Classify Brain Tumors** — Analyze MRI scans using two independent deep learning models (PyTorch & TensorFlow) and display both results side-by-side for higher diagnostic confidence.
-2. **Support Patients** — Provide patients and their families with an AI-powered care chatbot that offers personalized medical guidance, emotional support, and reliable health information.
-
-> This project bridges the gap between cutting-edge AI research and real-world patient care.
-
----
-
-## ❗ The Problem
-
-Brain tumors affect millions worldwide. Early and accurate detection is critical for patient survival, yet:
-
-- **Radiologists are in short supply** in many hospitals and regions.
-- **Misdiagnosis rates** for brain tumors remain concerningly high.
-- **Patients feel lost** after diagnosis — unsure about their treatment, what to expect, and where to turn.
+1. **Dual-Model MRI Analysis** — Analyzes brain MRI scans simultaneously with two independent deep learning architectures (**PyTorch ResNet-50** and **TensorFlow EfficientNet-B0**), displaying synchronized diagnostic predictions side-by-side for high confidence cross-validation.
+2. **Consensus Confidence System** — Automatically detects model agreement. High-confidence consensus is highlighted when both models agree, while potential edge cases trigger specialist consultation warnings.
+3. **NeuroCare AI Companion** — An integrated clinical companion that answers patient questions regarding symptoms, side effects, postoperative care, recovery steps, and emergency guidance.
+4. **Emerald Cyber-Glassmorphism UI** — A modern, high-tech interface featuring dark emerald glow effects, live drag-and-drop preview, and an interactive floating assistant.
 
 ---
 
-## ✅ Our Solution
+## ✨ Key Features
 
-| Challenge | Our Approach |
-|-----------|-------------|
-| Slow / inaccurate diagnosis | Two AI models analyze each scan independently for **cross-validation** |
-| Single-model bias | If both models agree → **high confidence**; if they differ → patient is warned to consult a specialist |
-| Patient anxiety | **NeuroCare AI Chatbot** provides 24/7 compassionate, medically-scoped guidance |
-| Accessibility | Simple web interface — just upload an MRI image and get results in seconds |
+- 🖼️ **Drag & Drop MRI Scanner**: Instant live image preview with support for PNG, JPG, and JPEG formats.
+- 🔬 **Synchronized Dual Inference**: In-memory simultaneous execution of PyTorch and TensorFlow models.
+- 🎯 **Multi-Class Classification**: Identifies **Glioma**, **Meningioma**, **Pituitary Tumor**, and **No Tumor (Healthy)** scans.
+- 📊 **Consensus Engine**: Visual badge and confidence indicator comparing model predictions.
+- 💬 **NeuroCare AI Floating Assistant**: Real-time conversational health support with quick-prompt suggestions.
+- ⚡ **Unified Single-Command Server**: Complete application runs on a single high-performance Flask server.
 
 ---
 
 ## 🏗️ System Architecture
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│                      User (Browser)                          │
-│                   http://localhost:3000                       │
-└────────────────────────┬─────────────────────────────────────┘
-                         │ Upload MRI Image (POST)
-                         ▼
-┌──────────────────────────────────────────────────────────────┐
-│              Frontend Server — deploy.py (Port 3000)         │
-│              Flask Web App │ HTML/CSS/JS UI                  │
-└────────────────────────┬─────────────────────────────────────┘
-                         │ Forward image to Prediction API
-                         ▼
-┌──────────────────────────────────────────────────────────────┐
-│            Prediction Server — app.py (Port 5000)            │
-│                                                              │
-│   ┌─────────────────────┐   ┌──────────────────────────┐    │
-│   │  PyTorch ResNet-50  │   │  TensorFlow EfficientB0  │    │
-│   │  bt_resnet50_model  │   │    kaggle_model.h5        │    │
-│   └──────────┬──────────┘   └────────────┬─────────────┘    │
-│              └──────────┬────────────────┘                   │
-│                         ▼                                    │
-│          { pytorch_pred, tf_pred }  (JSON)                   │
-└────────────────────────┬─────────────────────────────────────┘
-                         │
-                         ▼
-┌──────────────────────────────────────────────────────────────┐
-│                   Results Page (pred.html)                   │
-│       PyTorch Result │ TensorFlow Result │ Consensus Badge   │
-└──────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────────┐
+│                      Client Browser / Web Interface                     │
+│                        http://127.0.0.1:5000                            │
+└────────────────────────────────────┬────────────────────────────────────┘
+                                     │ Upload MRI Image (POST)
+                                     ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    NeuroAI Unified Server (app.py)                      │
+│                                                                         │
+│   ┌───────────────────────────┐       ┌─────────────────────────────┐   │
+│   │    PyTorch ResNet-50      │       │  TensorFlow EfficientNet-B0 │   │
+│   │  (512×512 ImageNet Head)  │       │     (150×150 BGR Tensor)    │   │
+│   └─────────────┬─────────────┘       └──────────────┬──────────────┘   │
+│                 │                                    │                  │
+│                 └─────────────────┬──────────────────┘                  │
+│                                   ▼                                     │
+│                     Consensus & Prediction Engine                       │
+│                     { pytorch_pred, tf_pred }                           │
+└───────────────────────────────────┬─────────────────────────────────────┘
+                                    │
+                                    ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                     Results View (pred.html)                            │
+│    • PyTorch Diagnosis   • TensorFlow Diagnosis   • Consensus Badge     │
+│    • Direct Link to NeuroCare AI Assistant with Diagnosis Context       │
+└─────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
 ## 🤖 AI Models
 
-### Model 1 — PyTorch ResNet-50
+### 1. PyTorch ResNet-50
+- **Base Architecture**: ResNet-50 (Deep Residual Learning)
+- **Classification Head**: Custom FC Network (2048 → 2048 → 4 classes) with `SELU` + `Dropout(0.4)` + `LogSigmoid`
+- **Input Resolution**: `512 × 512` px (RGB)
+- **Classes**: `['None', 'Meningioma', 'Glioma', 'Pituitary']`
+- **Checkpoint**: `assets/bt_resnet50_model.pt`
 
-| Property | Details |
-|----------|---------|
-| **Framework** | PyTorch |
-| **Base Architecture** | ResNet-50 (pretrained on ImageNet) |
-| **Fine-tuning** | Custom fully-connected head (2048 → 2048 → 4 classes) |
-| **Activation** | SELU + LogSigmoid |
-| **Input Size** | 512 × 512 px |
-| **Output Classes** | None, Meningioma, Glioma, Pituitary |
-| **Model File** | `assets/bt_resnet50_model.pt` (~122 MB) |
-
-### Model 2 — TensorFlow EfficientNet-B0
-
-| Property | Details |
-|----------|---------|
-| **Framework** | TensorFlow / Keras |
-| **Base Architecture** | EfficientNet-B0 (pretrained on ImageNet) |
-| **Fine-tuning** | GlobalAveragePooling → Dropout(0.5) → Dense(4, softmax) |
-| **Input Size** | 150 × 150 px |
-| **Output Classes** | Glioma, No Tumor, Meningioma, Pituitary |
-| **Training** | 12 epochs, Adam optimizer, Early Stopping + ReduceLR |
-| **Model File** | `assets/kaggle_model.h5` (~47 MB) |
-
-### 🔍 Dual-Model Consensus System
-
-The results page intelligently compares both predictions:
-
-- ✅ **Both agree** → High confidence banner displayed
-- ⚠️ **Models differ** → Warning banner urges specialist consultation
-
----
-
-## ✨ Key Features
-
-- 🖼️ **Drag & Drop MRI Upload** with live image preview
-- 🔬 **Dual-Model Analysis** — PyTorch + TensorFlow simultaneously
-- 🎨 **Color-coded Diagnoses** — each tumor type has a unique color
-- 🤝 **Consensus Banner** — smart agreement/disagreement detection
-- 🧠 **NeuroCare Chatbot** — AI companion for patients (powered by LLaMA 3)
-- 🌐 **Web Search Integration** — chatbot fetches real-time medical info when needed
-- 📱 **Fully Responsive** — works on desktop and mobile
-
----
-
-## 🛠️ Tech Stack
-
-| Layer | Technology |
-|-------|-----------|
-| **Frontend** | HTML5, CSS3 (Glassmorphism), Vanilla JavaScript |
-| **Backend** | Python, Flask |
-| **ML Framework 1** | PyTorch, TorchVision |
-| **ML Framework 2** | TensorFlow, Keras |
-| **Image Processing** | OpenCV, Pillow (PIL) |
-| **Chatbot** | LLaMA 3 (8B) via Open-WebUI / Groq API |
-| **Fonts** | Google Fonts (Inter, Space Grotesk) |
-| **Server** | Gunicorn (production) |
+### 2. TensorFlow EfficientNet-B0
+- **Base Architecture**: EfficientNet-B0 (Compound Scaling)
+- **Classification Head**: GlobalAveragePooling2D → `Dropout(0.5)` → Dense(4, softmax)
+- **Input Resolution**: `150 × 150` px (BGR, raw [0-255] scale)
+- **Classes**: `['Glioma', 'No Tumor', 'Meningioma', 'Pituitary']`
+- **Model File**: `assets/kaggle_model.h5`
 
 ---
 
 ## 📁 Project Structure
 
-```
-Medical Project/
-│
-├── 📄 app.py                    # Prediction API server (Port 5000)
-│                                # Loads & runs both AI models
-│
-├── 📄 deploy.py                 # Frontend Flask server (Port 3000)
-│                                # Handles uploads & session management
-│
-├── 📄 TFModel_Training.py       # TensorFlow EfficientNetB0 training script
-│
-├── 📄 KAN.py                    # Kolmogorov-Arnold Network experiment
-│
-├── 📁 template/
-│   ├── 🌐 index.html            # Upload page (drag & drop MRI)
-│   └── 🌐 pred.html             # Results page (dual model output)
-│
-├── 📁 static/
-│   ├── 📁 css/
-│   │   └── neuroai.css          # Shared stylesheet for all pages
-│   └── 📁 images/               # UI assets (logos, brain icon)
-│
-├── 📁 assets/
-│   ├── 🧠 bt_resnet50_model.pt  # PyTorch trained model (~122 MB)
-│   └── 🧠 kaggle_model.h5       # TensorFlow trained model (~47 MB)
-│
-├── 📁 Home Page/
-│   └── 🌐 index.html            # Project landing page
-│
-├── 📁 Data set/                 # MRI training & testing images
-│
-├── 📄 requirements_deploy.txt   # Minimal dependencies for deployment
-├── 📄 requirements.txt          # Full development dependencies
-└── 📄 README.md                 # This file
+```bash
+brain_tumor_classification2.0/
+├── Medical Project/
+│   ├── app.py                     # Main Unified Flask Application & AI Server
+│   ├── deploy.py                  # Standalone Runner Script
+│   ├── requirements.txt           # Python Dependencies (Python 3.10 - 3.12)
+│   ├── assets/
+│   │   ├── kaggle_model.h5        # TensorFlow EfficientNet-B0 Model
+│   │   └── bt_resnet50_model.pt   # PyTorch ResNet-50 Model Checkpoint
+│   ├── template/
+│   │   ├── index.html             # Scanner & Main Landing Page
+│   │   └── pred.html              # Diagnostic Results & Consensus View
+│   ├── static/
+│   │   ├── css/
+│   │   │   └── neuroai.css        # Emerald Bio-Medical Glassmorphic Stylesheet
+│   │   └── images/                # UI Assets, Logos & Sample MRI Scans
+│   ├── KAN.py                     # Kolmogorov-Arnold Network experimental script
+│   └── TFModel_Training.py        # Model Training Pipeline script
+├── Data set/                      # MRI Training & Testing Dataset
+│   ├── Training/
+│   └── Testing/
+├── .gitignore                     # Git rules (excludes virtualenvs, temp cache)
+└── README.md                      # Comprehensive Project Documentation
 ```
 
 ---
 
-## 📊 Dataset
+## 🚀 Quick Start
 
-**Brain Tumor Classification (MRI)** — Kaggle
-
-| Property | Details |
-|----------|---------|
-| **Source** | [Kaggle Dataset by Sartaj Bhuvaji](https://www.kaggle.com/datasets/sartajbhuvaji/brain-tumor-classification-mri) |
-| **Classes** | Glioma Tumor, Meningioma Tumor, Pituitary Tumor, No Tumor |
-| **Total Images** | ~3,264 MRI scans |
-| **Split** | Training + Testing folders |
-| **Format** | JPG images |
-
----
-
-## 🚀 How to Run
-
-### Prerequisites
-- Python 3.10
-- Conda environment named `classification`
-- GPU (optional — CPU is supported)
-
-### 1. Clone & Install
-
+### 1. Clone the Repository
 ```bash
-git clone <repository_url>
-cd "Medical Project"
-
-# Install dependencies
-pip install -r requirements_deploy.txt
-
-# Fix protobuf version conflict
-pip install protobuf==3.20.3
+git clone https://github.com/nrshousha/brain_tumor_classification2.0.git
+cd "brain_tumor_classification2.0/Medical Project"
 ```
 
-### 2. Download Models
-
-Place the models in the `assets/` folder:
-
-| Model | Download Link |
-|-------|--------------|
-| PyTorch ResNet-50 | [Download](https://drive.google.com/file/d/1LbFYQWl-gsi9tKo6SDNIwRTd0yi88GAJ/view?usp=sharing) |
-| TensorFlow EfficientNetB0 | [Download](https://drive.google.com/file/d/1nCbXHx2LMmgRByJ8mG7OtPP0ZsSJUje-/view?usp=sharing) |
-
-### 3. Run the Servers
-
-Open **two terminals** and run:
-
+### 2. Set Up Virtual Environment
 ```bash
-# Terminal 1 — AI Prediction Server
-conda activate classification
+python3 -m venv .venv
+source .venv/bin/activate    # On Windows: .venv\Scripts\activate
+```
+
+### 3. Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Run the Application
+```bash
 python app.py
-# → Running on http://localhost:5000
 ```
 
+### 5. Access the Web Interface
+Open your browser and navigate to:
+👉 **`http://127.0.0.1:5000`**
+
+---
+
+## 🌐 API Reference
+
+### Programmatic MRI Prediction
+You can send MRI scans directly to the REST API for programmatic inference:
+
+- **Endpoint**: `POST /predict`
+- **Body**: `multipart/form-data` with key `file`
+
+**Example with cURL**:
 ```bash
-# Terminal 2 — Web Frontend
-conda activate classification
-python deploy.py
-# → Running on http://localhost:3000
+curl -X POST http://127.0.0.1:5000/predict \
+     -F "file=@/path/to/mri_scan.jpg"
 ```
 
-### 4. Open the App
-
-Navigate to **http://localhost:3000** and upload any brain MRI image!
+**JSON Response**:
+```json
+{
+  "pytorch_pred": "Glioma",
+  "tf_pred": "Glioma"
+}
+```
 
 ---
 
-## 🤖 NeuroCare Chatbot
+### NeuroCare AI Chat Endpoint
+- **Endpoint**: `POST /chat`
+- **Body**: `multipart/form-data` with key `user_input`
 
-The integrated chatbot is powered by **LLaMA 3 (8B)** and is specifically designed for brain tumor patients.
-
-### What it does:
-- 💬 Explains tumor types, treatments, and medical terms in simple language
-- 🧘 Provides mental health support and coping strategies
-- 🔍 Searches the web for the latest medical research when needed
-- 🚨 Alerts users to seek emergency care for severe symptoms
-- 🚫 Strictly stays within the medical domain (no off-topic questions)
-
-### Setup Options:
-
-**Option A — Open-WebUI (Local LLaMA 3)**
+**Example**:
 ```bash
-pip install open-webui
-open-webui serve
-# → Running on http://localhost:8080
+curl -X POST http://127.0.0.1:5000/chat \
+     -F "user_input=What are common recovery steps after treatment?"
 ```
 
-**Option B — Groq API (Faster, Cloud)**
-1. Get a free API key from [Groq Console](https://console.groq.com/keys)
-2. In Open-WebUI → Settings → Admin Settings → Connections
-3. Add: `https://api.groq.com/openai/v1` with your key
+---
+
+## 💬 NeuroCare AI Chatbot
+
+The **NeuroCare AI Companion** provides patients with instant answers to vital medical questions:
+- **Symptoms & Side Effects**: Explains common signs such as chronic headaches, nausea, or visual disturbances.
+- **Recovery & Rehabilitation**: Details physical therapy, medication management, and routine follow-up protocols.
+- **Emergency Guidance**: Immediate safety instructions for epileptic seizures and acute episodes.
+- **Tumor Types**: Comprehensive breakdowns of Gliomas, Meningiomas, and Pituitary tumors.
 
 ---
 
-## 👥 Team
+## 📊 Dataset Details
 
-**NeuroAI Detectives** — Built with ❤️ for patients everywhere.
-
-> *"Using technology to bring hope and clarity to one of medicine's most challenging diagnoses."*
-
----
-
-## 📜 License
-
-This project is open-source and available under the **MIT License**.
+The models were trained on the **Brain Tumor MRI Dataset**, comprising thousands of axial, coronal, and sagittal T1/T2-weighted MRI scans:
+- **Glioma**: Infiltrative tumors originating in glial cells.
+- **Meningioma**: Typically benign tumors arising from the protective brain meninges.
+- **Pituitary**: Glandular neoplasms affecting hormonal homeostasis.
+- **No Tumor**: Healthy brain MRI scans.
 
 ---
 
-## 🙏 Acknowledgments
+## 📄 License & Disclaimer
 
-- PyTorch & TensorFlow communities
-- Open-WebUI & Groq teams
-- Kaggle dataset contributors
-- Medical professionals who inspired the care chatbot vision
+This software is developed for research, education, and decision-support purposes. It is not intended as a substitute for professional medical advice, clinical diagnosis, or treatment. Always seek the advice of a qualified healthcare provider for medical conditions.
