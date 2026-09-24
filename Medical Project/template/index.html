@@ -3,63 +3,157 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>NeuroAI — Brain Tumor Classifier</title>
-  <meta name="description" content="AI-powered brain tumor classification using PyTorch ResNet50 and TensorFlow EfficientNetB0."/>
-  <link rel="shortcut icon" href="../static/images/brain.png" type="image/png"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <title>NeuroAI — Brain Tumor Classification &amp; Care</title>
+  <meta name="description" content="AI-powered MRI scan analysis utilizing dual deep learning models (PyTorch ResNet-50 &amp; TensorFlow EfficientNet-B0) with integrated patient care assistant."/>
+  <link rel="shortcut icon" href="{{ url_for('static', filename='images/brain.png') }}" type="image/png"/>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/neuroai.css') }}"/>
-  </head>
+</head>
 <body>
-  <div class="page">
 
-    <div class="badge">
-      <span class="dot"></span>
-      Models Online &amp; Ready
-    </div>
+  <!-- Ambient Lighting Elements -->
+  <div class="glow-orb-1"></div>
+  <div class="glow-orb-2"></div>
 
-    <div class="hero">
-      <h1>Brain Tumor<br/>Classification</h1>
-      <p>Upload an MRI scan — two AI models will analyze it instantly</p>
-    </div>
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <a class="nav-brand" href="/">
+      <img src="{{ url_for('static', filename='images/brain.png') }}" alt="NeuroAI Logo"/>
+      <span>NeuroAI</span> Diagnostics
+    </a>
+    <nav>
+      <ul class="nav-links">
+        <li><a class="nav-link active" href="/">🔬 Scanner</a></li>
+        <li><a class="nav-link" href="#" onclick="toggleChat(true); return false;">💬 NeuroCare AI</a></li>
+        <li><a class="nav-link" href="https://github.com/nrshousha/brain_tumor_classification2.0" target="_blank" rel="noopener">⚡ GitHub</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    <div class="models">
-      <div class="model-pill">
+  <!-- Main Container -->
+  <main class="app-container">
+
+    <!-- Hero Header -->
+    <section class="hero-header">
+      <div class="status-badge">
+        <span class="status-dot"></span>
+        Dual AI Diagnostic Engine Active
+      </div>
+      <h1 class="hero-title">Brain Tumor Classification</h1>
+      <p class="hero-subtitle">
+        Upload an MRI scan to perform synchronized dual-model classification with PyTorch ResNet-50 and TensorFlow EfficientNet-B0.
+      </p>
+    </section>
+
+    <!-- Model Indicator Chips -->
+    <div class="model-badges-row">
+      <div class="model-chip">
         <img src="{{ url_for('static', filename='images/Pytorch_logo.png') }}" alt="PyTorch"/>
-        ResNet-50
+        PyTorch ResNet-50 (512×512)
       </div>
-      <div class="model-pill">
+      <div class="model-chip">
         <img src="{{ url_for('static', filename='images/TensorFlow_logo.png') }}" alt="TensorFlow"/>
-        EfficientNet-B0
+        TensorFlow EfficientNet-B0 (150×150)
       </div>
     </div>
 
-    <div class="card">
+    <!-- Main Glass Card -->
+    <section class="glass-panel">
       <form id="classifyForm" name="bt_classifier" action="/" method="POST" enctype="multipart/form-data">
 
-        <div class="drop-zone" id="dropZone">
-          <span class="drop-icon">🧠</span>
-          <h3>Drop your MRI scan here</h3>
-          <p>or click to browse &nbsp;·&nbsp; PNG, JPG, JPEG</p>
+        <!-- Drag & Drop Zone -->
+        <div class="upload-dropzone" id="dropZone">
+          <div class="drop-icon-box">🧠</div>
+          <h2 class="dropzone-title">Drop your MRI scan here</h2>
+          <p class="dropzone-desc">or click anywhere to browse files (PNG, JPG, JPEG)</p>
           <input type="file" name="bt_image" id="bt_image" accept=".png,.jpg,.jpeg"/>
         </div>
 
+        <!-- Live Preview Wrap -->
         <div id="preview-wrap">
-          <img id="preview-img" src="" alt="Preview"/>
+          <img id="preview-img" src="" alt="MRI Preview"/>
           <div id="preview-label"></div>
         </div>
 
-        <button type="submit" class="btn-submit" id="submitBtn" disabled>
-          <span class="label">🔬 &nbsp;Classify</span>
+        <!-- Sample MRI Quick-Select Buttons -->
+        <div class="samples-section">
+          <div class="samples-header">
+            <span class="samples-title">⚡ Quick Test with Sample MRI Scans:</span>
+          </div>
+          <div class="samples-grid">
+            <div class="sample-card" onclick="loadSample('glioma_Te-glTr_0000.jpg', 'Sample: Glioma MRI')">
+              <img class="sample-img-thumb" src="{{ url_for('static', filename='images/glioma_Te-glTr_0000.jpg') }}" alt="Glioma sample"/>
+              <div class="sample-name">Glioma</div>
+            </div>
+            <div class="sample-card" onclick="loadSample('Te-me_0016.jpg', 'Sample: Meningioma MRI')">
+              <img class="sample-img-thumb" src="{{ url_for('static', filename='images/Te-me_0016.jpg') }}" alt="Meningioma sample"/>
+              <div class="sample-name">Meningioma</div>
+            </div>
+            <div class="sample-card" onclick="loadSample('pituitary_Te-pi_0017.jpg', 'Sample: Pituitary MRI')">
+              <img class="sample-img-thumb" src="{{ url_for('static', filename='images/pituitary_Te-pi_0017.jpg') }}" alt="Pituitary sample"/>
+              <div class="sample-name">Pituitary</div>
+            </div>
+            <div class="sample-card" onclick="loadSample('Te-no_0027.jpg', 'Sample: Healthy MRI')">
+              <img class="sample-img-thumb" src="{{ url_for('static', filename='images/Te-no_0027.jpg') }}" alt="Healthy sample"/>
+              <div class="sample-name">No Tumor</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn-primary-action" id="submitBtn" disabled>
+          <span class="btn-text">🔬 &nbsp; Analyze MRI Scan</span>
           <div class="spinner"></div>
         </button>
 
       </form>
-    </div>
+    </section>
 
-    <p class="hint">Supports: Glioma · Meningioma · Pituitary Tumor · No Tumor</p>
+    <!-- Footer -->
+    <footer class="app-footer">
+      NeuroAI Research System &bull; Supports Glioma &bull; Meningioma &bull; Pituitary &bull; Healthy Scans
+    </footer>
 
+  </main>
+
+  <!-- NeuroCare Floating AI Chatbot Widget -->
+  <div class="chat-drawer">
+    <button class="chat-toggle-btn" id="chatToggleBtn" onclick="toggleChat()" title="Open NeuroCare Chatbot">
+      💬
+    </button>
   </div>
 
+  <div class="chat-modal" id="chatModal">
+    <div class="chat-header">
+      <div class="chat-header-info">
+        <img src="{{ url_for('static', filename='images/brain.png') }}" alt="NeuroCare"/>
+        <div>
+          <div class="chat-title">NeuroCare Assistant</div>
+          <div class="chat-status">&#x25CF; Online &bull; Ready to help</div>
+        </div>
+      </div>
+      <button class="chat-close-btn" onclick="toggleChat(false)">&times;</button>
+    </div>
+
+    <div class="chat-messages" id="chatMessages">
+      <div class="chat-msg bot">
+        Hello! I'm <strong>Snow</strong>, your NeuroCare companion. How can I assist you today with symptoms, recovery, or questions regarding brain health?
+      </div>
+    </div>
+
+    <div class="chat-quick-prompts">
+      <button class="chat-prompt-pill" onclick="sendQuickPrompt('What are common side effects and symptoms?')">Side Effects</button>
+      <button class="chat-prompt-pill" onclick="sendQuickPrompt('How does recovery after treatment work?')">Recovery</button>
+      <button class="chat-prompt-pill" onclick="sendQuickPrompt('What should I do for persistent headaches?')">Headaches</button>
+      <button class="chat-prompt-pill" onclick="sendQuickPrompt('What are severe emergency symptoms?')">Emergency</button>
+    </div>
+
+    <div class="chat-input-row">
+      <input type="text" id="chatInput" class="chat-input" placeholder="Ask a question..." onkeydown="if(event.key==='Enter') sendChatMessage()"/>
+      <button class="chat-send-btn" onclick="sendChatMessage()">➤</button>
+    </div>
+  </div>
+
+  <!-- Client-Side Logic -->
   <script>
     const input     = document.getElementById('bt_image');
     const dropZone  = document.getElementById('dropZone');
@@ -68,33 +162,104 @@
     const previewL  = document.getElementById('preview-label');
     const submitBtn = document.getElementById('submitBtn');
     const form      = document.getElementById('classifyForm');
+    const chatModal = document.getElementById('chatModal');
+    const chatMsgs  = document.getElementById('chatMessages');
+    const chatInp   = document.getElementById('chatInput');
 
     function showPreview(file) {
       if (!file) return;
       const url = URL.createObjectURL(file);
       previewI.src = url;
-      previewL.textContent = file.name + '  (' + (file.size / 1024).toFixed(1) + ' KB)';
+      previewL.textContent = file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
       previewW.style.display = 'block';
       submitBtn.disabled = false;
     }
 
     input.addEventListener('change', () => showPreview(input.files[0]));
 
-    // Drag & drop
+    // Drag & drop handlers
     dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragging'); });
     dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragging'));
     dropZone.addEventListener('drop', e => {
       e.preventDefault();
       dropZone.classList.remove('dragging');
       const file = e.dataTransfer.files[0];
-      if (file) { input.files = e.dataTransfer.files; showPreview(file); }
+      if (file) {
+        input.files = e.dataTransfer.files;
+        showPreview(file);
+      }
     });
 
-    // Loading state on submit
+    // Quick-select sample loader
+    async function loadSample(fileName, displayName) {
+      try {
+        const response = await fetch('/static/images/' + fileName);
+        const blob = await response.blob();
+        const file = new File([blob], fileName, { type: blob.type || 'image/jpeg' });
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+        input.files = dataTransfer.files;
+        showPreview(file);
+        previewL.textContent = displayName;
+      } catch (err) {
+        console.error('Error loading sample image:', err);
+      }
+    }
+
+    // Submit animation
     form.addEventListener('submit', () => {
       submitBtn.classList.add('loading');
       submitBtn.disabled = true;
     });
+
+    // Chatbot functionality
+    function toggleChat(forceOpen) {
+      if (forceOpen !== undefined) {
+        chatModal.classList.toggle('open', forceOpen);
+      } else {
+        chatModal.classList.toggle('open');
+      }
+      if (chatModal.classList.contains('open')) {
+        chatInp.focus();
+      }
+    }
+
+    function sendQuickPrompt(text) {
+      chatInp.value = text;
+      sendChatMessage();
+    }
+
+    async function sendChatMessage() {
+      const text = chatInp.value.trim();
+      if (!text) return;
+
+      // Add user message
+      const userDiv = document.createElement('div');
+      userDiv.className = 'chat-msg user';
+      userDiv.textContent = text;
+      chatMsgs.appendChild(userDiv);
+      chatInp.value = '';
+      chatMsgs.scrollTop = chatMsgs.scrollHeight;
+
+      // Fetch response
+      try {
+        const formData = new FormData();
+        formData.append('user_input', text);
+        const res = await fetch('/chat', { method: 'POST', body: formData });
+        const data = await res.json();
+        
+        const botDiv = document.createElement('div');
+        botDiv.className = 'chat-msg bot';
+        botDiv.textContent = data.response || "I am here to support you. Please feel free to ask any medical care question.";
+        chatMsgs.appendChild(botDiv);
+      } catch (e) {
+        const botDiv = document.createElement('div');
+        botDiv.className = 'chat-msg bot';
+        botDiv.textContent = "Thank you for reaching out. In case of urgent symptoms, please consult your doctor immediately.";
+        chatMsgs.appendChild(botDiv);
+      }
+      chatMsgs.scrollTop = chatMsgs.scrollHeight;
+    }
   </script>
 </body>
 </html>

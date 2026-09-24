@@ -4,113 +4,246 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>NeuroAI — Classification Results</title>
-  <meta name="description" content="Brain tumor classification results from PyTorch ResNet50 and TensorFlow EfficientNetB0."/>
-  <link rel="shortcut icon" href="../static/images/brain.png" type="image/png"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <meta name="description" content="Dual AI model MRI scan classification results from PyTorch ResNet-50 and TensorFlow EfficientNet-B0."/>
+  <link rel="shortcut icon" href="{{ url_for('static', filename='images/brain.png') }}" type="image/png"/>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/neuroai.css') }}"/>
-  </head>
+</head>
 <body>
-  <div class="page">
 
-    <!-- Top bar -->
-    <div class="topbar">
-      <a class="logo" href="/">
-        <img src="{{ url_for('static', filename='images/brain.png') }}" alt="NeuroAI"/>
-        NeuroAI Detectives
-      </a>
-      <a class="btn-home" href="/empty_page">← New Scan</a>
-    </div>
+  <!-- Ambient Lighting Elements -->
+  <div class="glow-orb-1"></div>
+  <div class="glow-orb-2"></div>
 
-    <!-- Title -->
-    <div class="section-title">
-      <h1>Classification Results</h1>
-      <p>Two independent models analyzed your MRI scan</p>
-    </div>
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <a class="nav-brand" href="/">
+      <img src="{{ url_for('static', filename='images/brain.png') }}" alt="NeuroAI Logo"/>
+      <span>NeuroAI</span> Diagnostics
+    </a>
+    <nav>
+      <ul class="nav-links">
+        <li><a class="nav-link active" href="/empty_page">← New Scan</a></li>
+        <li><a class="nav-link" href="#" onclick="toggleChat(true); return false;">💬 NeuroCare AI</a></li>
+        <li><a class="nav-link" href="https://github.com/nrshousha/brain_tumor_classification2.0" target="_blank" rel="noopener">⚡ GitHub</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    <!-- Main grid -->
-    <div class="main-grid">
+  <!-- Main Container -->
+  <main class="app-container">
 
-      <!-- MRI Preview -->
-      <div class="mri-card">
-        <div class="mri-header">
-          <span class="dot"></span>
-          MRI Scan — Uploaded Image
-        </div>
-        <img class="scan" src="{{ url_for('static', filename='images/' + f_name) }}" alt="MRI Scan"/>
+    <!-- Header -->
+    <section class="hero-header">
+      <div class="status-badge">
+        <span class="status-dot"></span>
+        Analysis Complete
       </div>
+      <h1 class="hero-title">Diagnostic Results</h1>
+      <p class="hero-subtitle">
+        Synchronized output from independent PyTorch and TensorFlow neural networks
+      </p>
+    </section>
 
-      <!-- PyTorch Result -->
-      {% set p0 = pred[0] | lower %}
-      {% set p1 = pred[1] | lower %}
+    <!-- Results Panel Grid -->
+    <section class="glass-panel">
+      <div class="results-grid">
 
-      {% set color0 = 'color-glioma'     if 'glioma'     in p0 else
-                      'color-meningioma' if 'meningioma'  in p0 else
-                      'color-pituitary'  if 'pituitary'   in p0 else
-                      'color-notumor'    if 'no tumor'    in p0 or 'no_tumor' in p0 else
-                      'color-none' %}
-
-      {% set color1 = 'color-glioma'     if 'glioma'     in p1 else
-                      'color-meningioma' if 'meningioma'  in p1 else
-                      'color-pituitary'  if 'pituitary'   in p1 else
-                      'color-notumor'    if 'no tumor'    in p1 or 'no_tumor' in p1 else
-                      'color-none' %}
-
-      <div class="result-card" id="pytorch-card">
-        <div class="model-header">
-          <img src="{{ url_for('static', filename='images/Pytorch_logo.png') }}" alt="PyTorch"/>
-          <div class="model-info">
-            <div class="model-name">PyTorch</div>
-            <div class="model-arch">ResNet-50 · Fine-tuned</div>
+        <!-- Uploaded MRI Scan Card -->
+        <div class="scan-view-card">
+          <img src="{{ url_for('static', filename='images/' + f_name) }}" alt="MRI Scan Result"/>
+          <div class="scan-caption">
+            <strong>Uploaded MRI Scan</strong><br/>
+            <span>{{ f_name }}</span>
           </div>
         </div>
-        <div class="diagnosis">
-          <span class="label">Diagnosis</span>
-          <div class="value {{ color0 }}">{{ pred[0] }}</div>
-        </div>
-      </div>
 
-      <!-- TensorFlow Result -->
-      <div class="result-card" id="tf-card">
-        <div class="model-header">
-          <img src="{{ url_for('static', filename='images/TensorFlow_logo.png') }}" alt="TensorFlow"/>
-          <div class="model-info">
-            <div class="model-name">TensorFlow</div>
-            <div class="model-arch">EfficientNet-B0 · Fine-tuned</div>
+        <!-- Model Results Column -->
+        <div class="models-results-col">
+
+          {% set p0 = pred[0] | lower %}
+          {% set p1 = pred[1] | lower %}
+
+          {% set color0 = 'color-glioma'     if 'glioma'     in p0 else
+                          'color-meningioma' if 'meningioma'  in p0 else
+                          'color-pituitary'  if 'pituitary'   in p0 else
+                          'color-notumor'    if 'no tumor'    in p0 or 'no_tumor' in p0 else
+                          'color-none' %}
+
+          {% set color1 = 'color-glioma'     if 'glioma'     in p1 else
+                          'color-meningioma' if 'meningioma'  in p1 else
+                          'color-pituitary'  if 'pituitary'   in p1 else
+                          'color-notumor'    if 'no tumor'    in p1 or 'no_tumor' in p1 else
+                          'color-none' %}
+
+          <!-- PyTorch Card -->
+          <div class="model-result-card">
+            <div class="result-header">
+              <div class="result-header-left">
+                <img src="{{ url_for('static', filename='images/Pytorch_logo.png') }}" alt="PyTorch"/>
+                <div>
+                  <div class="model-title-text">PyTorch Model</div>
+                  <div class="model-sub-text">ResNet-50 &bull; 512×512 ImageNet fine-tuned</div>
+                </div>
+              </div>
+            </div>
+            <div class="diagnosis-badge {{ color0 }}">
+              <span>{{ pred[0] }}</span>
+              <small style="font-size: 0.75rem; font-weight: 500; opacity: 0.8;">Primary Model</small>
+            </div>
           </div>
+
+          <!-- TensorFlow Card -->
+          <div class="model-result-card">
+            <div class="result-header">
+              <div class="result-header-left">
+                <img src="{{ url_for('static', filename='images/TensorFlow_logo.png') }}" alt="TensorFlow"/>
+                <div>
+                  <div class="model-title-text">TensorFlow Model</div>
+                  <div class="model-sub-text">EfficientNet-B0 &bull; 150×150 BGR fine-tuned</div>
+                </div>
+              </div>
+            </div>
+            <div class="diagnosis-badge {{ color1 }}">
+              <span>{{ pred[1] }}</span>
+              <small style="font-size: 0.75rem; font-weight: 500; opacity: 0.8;">Secondary Model</small>
+            </div>
+          </div>
+
         </div>
-        <div class="diagnosis">
-          <span class="label">Diagnosis</span>
-          <div class="value {{ color1 }}">{{ pred[1] }}</div>
-        </div>
+
       </div>
 
-      <!-- Consensus Banner -->
+      <!-- Consensus Evaluation -->
       {% if pred[0] | lower == pred[1] | lower %}
-      <div class="consensus agree">
-        <span class="icon">✅</span>
-        <div class="text">
-          <div class="title">Both models agree — <strong>{{ pred[0] }}</strong></div>
-          <div class="sub">High confidence: PyTorch &amp; TensorFlow reached the same diagnosis.</div>
+      <div class="consensus-box agree">
+        <div class="consensus-icon">✅</div>
+        <div>
+          <div class="consensus-title">High Confidence Consensus: <strong>{{ pred[0] }}</strong></div>
+          <div class="consensus-sub">
+            Both PyTorch (ResNet-50) and TensorFlow (EfficientNet-B0) independently arrived at the identical classification.
+          </div>
         </div>
       </div>
       {% else %}
-      <div class="consensus differ">
-        <span class="icon">⚠️</span>
-        <div class="text">
-          <div class="title">Models differ — please consult a specialist</div>
-          <div class="sub">PyTorch: <strong>{{ pred[0] }}</strong> &nbsp;·&nbsp; TensorFlow: <strong>{{ pred[1] }}</strong></div>
+      <div class="consensus-box differ">
+        <div class="consensus-icon">⚠️</div>
+        <div>
+          <div class="consensus-title">Model Discrepancy Detected</div>
+          <div class="consensus-sub">
+            PyTorch predicted <strong>{{ pred[0] }}</strong> while TensorFlow predicted <strong>{{ pred[1] }}</strong>. Further radiologist review and clinical evaluation is strongly recommended.
+          </div>
         </div>
       </div>
       {% endif %}
 
-    </div><!-- /.main-grid -->
+      <!-- Action Buttons -->
+      <div style="display: flex; gap: 14px; margin-top: 24px; flex-wrap: wrap;">
+        <a href="/empty_page" class="btn-primary-action" style="flex: 1; text-decoration: none;">
+          <span>🔬 &nbsp; Analyze Another Scan</span>
+        </a>
+        <button onclick="toggleChat(true); sendQuickPrompt('Tell me about the diagnosis: {{ pred[0] }}');" class="btn-primary-action" style="flex: 1; background: rgba(59, 130, 246, 0.2); border: 1px solid rgba(59, 130, 246, 0.4); box-shadow: none;">
+          <span>💬 &nbsp; Ask NeuroCare About Diagnosis</span>
+        </button>
+      </div>
 
-    <!-- Bottom actions -->
-    <div class="cta-row">
-      <a class="btn-primary" href="/empty_page" id="newScanBtn">🧠 &nbsp;Analyze Another Scan</a>
-      <a class="btn-secondary" href="/">← Back to Home</a>
+    </section>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      NeuroAI Research System &bull; For investigational &amp; decision-support use only.
+    </footer>
+
+  </main>
+
+  <!-- NeuroCare Floating AI Chatbot Widget -->
+  <div class="chat-drawer">
+    <button class="chat-toggle-btn" id="chatToggleBtn" onclick="toggleChat()" title="Open NeuroCare Chatbot">
+      💬
+    </button>
+  </div>
+
+  <div class="chat-modal" id="chatModal">
+    <div class="chat-header">
+      <div class="chat-header-info">
+        <img src="{{ url_for('static', filename='images/brain.png') }}" alt="NeuroCare"/>
+        <div>
+          <div class="chat-title">NeuroCare Assistant</div>
+          <div class="chat-status">&#x25CF; Online &bull; Ready to help</div>
+        </div>
+      </div>
+      <button class="chat-close-btn" onclick="toggleChat(false)">&times;</button>
     </div>
 
-  </div><!-- /.page -->
+    <div class="chat-messages" id="chatMessages">
+      <div class="chat-msg bot">
+        Hello! I can explain more about your results (<strong>{{ pred[0] }}</strong>), help answer questions about recovery, or provide support.
+      </div>
+    </div>
+
+    <div class="chat-quick-prompts">
+      <button class="chat-prompt-pill" onclick="sendQuickPrompt('What are common side effects and symptoms?')">Side Effects</button>
+      <button class="chat-prompt-pill" onclick="sendQuickPrompt('How does recovery after treatment work?')">Recovery</button>
+      <button class="chat-prompt-pill" onclick="sendQuickPrompt('What should I do for persistent headaches?')">Headaches</button>
+      <button class="chat-prompt-pill" onclick="sendQuickPrompt('What are severe emergency symptoms?')">Emergency</button>
+    </div>
+
+    <div class="chat-input-row">
+      <input type="text" id="chatInput" class="chat-input" placeholder="Ask a question..." onkeydown="if(event.key==='Enter') sendChatMessage()"/>
+      <button class="chat-send-btn" onclick="sendChatMessage()">➤</button>
+    </div>
+  </div>
+
+  <!-- Client-Side Logic -->
+  <script>
+    const chatModal = document.getElementById('chatModal');
+    const chatMsgs  = document.getElementById('chatMessages');
+    const chatInp   = document.getElementById('chatInput');
+
+    function toggleChat(forceOpen) {
+      if (forceOpen !== undefined) {
+        chatModal.classList.toggle('open', forceOpen);
+      } else {
+        chatModal.classList.toggle('open');
+      }
+      if (chatModal.classList.contains('open')) {
+        chatInp.focus();
+      }
+    }
+
+    function sendQuickPrompt(text) {
+      chatInp.value = text;
+      sendChatMessage();
+    }
+
+    async function sendChatMessage() {
+      const text = chatInp.value.trim();
+      if (!text) return;
+
+      const userDiv = document.createElement('div');
+      userDiv.className = 'chat-msg user';
+      userDiv.textContent = text;
+      chatMsgs.appendChild(userDiv);
+      chatInp.value = '';
+      chatMsgs.scrollTop = chatMsgs.scrollHeight;
+
+      try {
+        const formData = new FormData();
+        formData.append('user_input', text);
+        const res = await fetch('/chat', { method: 'POST', body: formData });
+        const data = await res.json();
+        
+        const botDiv = document.createElement('div');
+        botDiv.className = 'chat-msg bot';
+        botDiv.textContent = data.response || "I am here to support you. Please feel free to ask any medical care question.";
+        chatMsgs.appendChild(botDiv);
+      } catch (e) {
+        const botDiv = document.createElement('div');
+        botDiv.className = 'chat-msg bot';
+        botDiv.textContent = "Thank you for reaching out. In case of urgent symptoms, please consult your doctor immediately.";
+        chatMsgs.appendChild(botDiv);
+      }
+      chatMsgs.scrollTop = chatMsgs.scrollHeight;
+    }
+  </script>
 </body>
 </html>
