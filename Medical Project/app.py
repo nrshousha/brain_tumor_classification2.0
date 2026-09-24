@@ -1,4 +1,5 @@
 import os
+import setuptools  # Provides distutils shim for Python 3.12+
 
 # ── Standard ──────────────────────────────────────────────────────────────────
 from io import BytesIO
@@ -12,9 +13,13 @@ from torch import device as DEVICE
 from torch.cuda import is_available
 from torch.nn import Sequential, Linear, SELU, Dropout, LogSigmoid
 from torchvision.transforms import Compose, ToTensor, Resize
-from torchvision.models import resnet50
+from torchvision.models import resnet50, ResNet50_Weights
 
 # ── TensorFlow (EfficientNetB0 / kaggle_model) ────────────────────────────────
+try:
+    import tf_keras as keras
+except ImportError:
+    import tensorflow.keras as keras
 import tensorflow as tf
 
 # =============================================================================
@@ -28,7 +33,7 @@ device = "cuda" if is_available() else "cpu"
 
 # ── Load PyTorch Model ────────────────────────────────────────────────────────
 print("[INFO] Loading PyTorch model...")
-resnet_model = resnet50(pretrained=True)
+resnet_model = resnet50(weights=None)
 
 for param in resnet_model.parameters():
     param.requires_grad = True
@@ -50,7 +55,7 @@ print("[INFO] PyTorch model loaded ✓")
 
 # ── Load TensorFlow Model ─────────────────────────────────────────────────────
 print("[INFO] Loading TensorFlow model...")
-tf_model = tf.keras.models.load_model('assets/kaggle_model.h5')
+tf_model = keras.models.load_model('assets/kaggle_model.h5')
 print("[INFO] TensorFlow model loaded ✓")
 
 # =============================================================================
