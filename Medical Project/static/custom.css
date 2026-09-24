@@ -1,0 +1,122 @@
+/* Custom scrollbar styling */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Chat message styling */
+.cl-message {
+    border-radius: 15px;
+    margin: 10px 0;
+}
+
+/* User message styling */
+.cl-user-message {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+/* Assistant message styling */
+.cl-assistant-message {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+}
+
+/* Heading styling */
+h1 {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 2.5em;
+}
+
+h2 {
+    color: #34495e;
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+/* List styling */
+ul {
+    padding-left: 20px;
+}
+
+li {
+    margin: 8px 0;
+    line-height: 1.6;
+}
+
+/* Button styling */
+.cl-button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 25px;
+    padding: 12px 24px;
+    color: white;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.cl-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Model selection styling */
+.cl-chat-settings {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+/* Input field styling */
+.cl-input {
+    border-radius: 25px;
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.cl-input:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+/* Welcome message styling */
+.cl-welcome-message {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+/* Suggestion buttons */
+.cl-suggestion {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 16px;
+    margin: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cl-suggestion:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+} 

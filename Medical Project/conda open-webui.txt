@@ -1,0 +1,6 @@
+1) conda init 
+
+2) conda activate open-webui
+
+3) open-webui serve 
+

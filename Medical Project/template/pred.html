@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NeuroAI — Classification Results</title>
+  <meta name="description" content="Brain tumor classification results from PyTorch ResNet50 and TensorFlow EfficientNetB0."/>
+  <link rel="shortcut icon" href="../static/images/brain.png" type="image/png"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/neuroai.css') }}"/>
+  </head>
+<body>
+  <div class="page">
+
+    <!-- Top bar -->
+    <div class="topbar">
+      <a class="logo" href="/">
+        <img src="{{ url_for('static', filename='images/brain.png') }}" alt="NeuroAI"/>
+        NeuroAI Detectives
+      </a>
+      <a class="btn-home" href="/empty_page">← New Scan</a>
+    </div>
+
+    <!-- Title -->
+    <div class="section-title">
+      <h1>Classification Results</h1>
+      <p>Two independent models analyzed your MRI scan</p>
+    </div>
+
+    <!-- Main grid -->
+    <div class="main-grid">
+
+      <!-- MRI Preview -->
+      <div class="mri-card">
+        <div class="mri-header">
+          <span class="dot"></span>
+          MRI Scan — Uploaded Image
+        </div>
+        <img class="scan" src="{{ url_for('static', filename='images/' + f_name) }}" alt="MRI Scan"/>
+      </div>
+
+      <!-- PyTorch Result -->
+      {% set p0 = pred[0] | lower %}
+      {% set p1 = pred[1] | lower %}
+
+      {% set color0 = 'color-glioma'     if 'glioma'     in p0 else
+                      'color-meningioma' if 'meningioma'  in p0 else
+                      'color-pituitary'  if 'pituitary'   in p0 else
+                      'color-notumor'    if 'no tumor'    in p0 or 'no_tumor' in p0 else
+                      'color-none' %}
+
+      {% set color1 = 'color-glioma'     if 'glioma'     in p1 else
+                      'color-meningioma' if 'meningioma'  in p1 else
+                      'color-pituitary'  if 'pituitary'   in p1 else
+                      'color-notumor'    if 'no tumor'    in p1 or 'no_tumor' in p1 else
+                      'color-none' %}
+
+      <div class="result-card" id="pytorch-card">
+        <div class="model-header">
+          <img src="{{ url_for('static', filename='images/Pytorch_logo.png') }}" alt="PyTorch"/>
+          <div class="model-info">
+            <div class="model-name">PyTorch</div>
+            <div class="model-arch">ResNet-50 · Fine-tuned</div>
+          </div>
+        </div>
+        <div class="diagnosis">
+          <span class="label">Diagnosis</span>
+          <div class="value {{ color0 }}">{{ pred[0] }}</div>
+        </div>
+      </div>
+
+      <!-- TensorFlow Result -->
+      <div class="result-card" id="tf-card">
+        <div class="model-header">
+          <img src="{{ url_for('static', filename='images/TensorFlow_logo.png') }}" alt="TensorFlow"/>
+          <div class="model-info">
+            <div class="model-name">TensorFlow</div>
+            <div class="model-arch">EfficientNet-B0 · Fine-tuned</div>
+          </div>
+        </div>
+        <div class="diagnosis">
+          <span class="label">Diagnosis</span>
+          <div class="value {{ color1 }}">{{ pred[1] }}</div>
+        </div>
+      </div>
+
+      <!-- Consensus Banner -->
+      {% if pred[0] | lower == pred[1] | lower %}
+      <div class="consensus agree">
+        <span class="icon">✅</span>
+        <div class="text">
+          <div class="title">Both models agree — <strong>{{ pred[0] }}</strong></div>
+          <div class="sub">High confidence: PyTorch &amp; TensorFlow reached the same diagnosis.</div>
+        </div>
+      </div>
+      {% else %}
+      <div class="consensus differ">
+        <span class="icon">⚠️</span>
+        <div class="text">
+          <div class="title">Models differ — please consult a specialist</div>
+          <div class="sub">PyTorch: <strong>{{ pred[0] }}</strong> &nbsp;·&nbsp; TensorFlow: <strong>{{ pred[1] }}</strong></div>
+        </div>
+      </div>
+      {% endif %}
+
+    </div><!-- /.main-grid -->
+
+    <!-- Bottom actions -->
+    <div class="cta-row">
+      <a class="btn-primary" href="/empty_page" id="newScanBtn">🧠 &nbsp;Analyze Another Scan</a>
+      <a class="btn-secondary" href="/">← Back to Home</a>
+    </div>
+
+  </div><!-- /.page -->
+</body>
+</html>

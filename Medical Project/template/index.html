@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NeuroAI — Brain Tumor Classifier</title>
+  <meta name="description" content="AI-powered brain tumor classification using PyTorch ResNet50 and TensorFlow EfficientNetB0."/>
+  <link rel="shortcut icon" href="../static/images/brain.png" type="image/png"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/neuroai.css') }}"/>
+  </head>
+<body>
+  <div class="page">
+
+    <div class="badge">
+      <span class="dot"></span>
+      Models Online &amp; Ready
+    </div>
+
+    <div class="hero">
+      <h1>Brain Tumor<br/>Classification</h1>
+      <p>Upload an MRI scan — two AI models will analyze it instantly</p>
+    </div>
+
+    <div class="models">
+      <div class="model-pill">
+        <img src="{{ url_for('static', filename='images/Pytorch_logo.png') }}" alt="PyTorch"/>
+        ResNet-50
+      </div>
+      <div class="model-pill">
+        <img src="{{ url_for('static', filename='images/TensorFlow_logo.png') }}" alt="TensorFlow"/>
+        EfficientNet-B0
+      </div>
+    </div>
+
+    <div class="card">
+      <form id="classifyForm" name="bt_classifier" action="/" method="POST" enctype="multipart/form-data">
+
+        <div class="drop-zone" id="dropZone">
+          <span class="drop-icon">🧠</span>
+          <h3>Drop your MRI scan here</h3>
+          <p>or click to browse &nbsp;·&nbsp; PNG, JPG, JPEG</p>
+          <input type="file" name="bt_image" id="bt_image" accept=".png,.jpg,.jpeg"/>
+        </div>
+
+        <div id="preview-wrap">
+          <img id="preview-img" src="" alt="Preview"/>
+          <div id="preview-label"></div>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn" disabled>
+          <span class="label">🔬 &nbsp;Classify</span>
+          <div class="spinner"></div>
+        </button>
+
+      </form>
+    </div>
+
+    <p class="hint">Supports: Glioma · Meningioma · Pituitary Tumor · No Tumor</p>
+
+  </div>
+
+  <script>
+    const input     = document.getElementById('bt_image');
+    const dropZone  = document.getElementById('dropZone');
+    const previewW  = document.getElementById('preview-wrap');
+    const previewI  = document.getElementById('preview-img');
+    const previewL  = document.getElementById('preview-label');
+    const submitBtn = document.getElementById('submitBtn');
+    const form      = document.getElementById('classifyForm');
+
+    function showPreview(file) {
+      if (!file) return;
+      const url = URL.createObjectURL(file);
+      previewI.src = url;
+      previewL.textContent = file.name + '  (' + (file.size / 1024).toFixed(1) + ' KB)';
+      previewW.style.display = 'block';
+      submitBtn.disabled = false;
+    }
+
+    input.addEventListener('change', () => showPreview(input.files[0]));
+
+    // Drag & drop
+    dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragging'); });
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragging'));
+    dropZone.addEventListener('drop', e => {
+      e.preventDefault();
+      dropZone.classList.remove('dragging');
+      const file = e.dataTransfer.files[0];
+      if (file) { input.files = e.dataTransfer.files; showPreview(file); }
+    });
+
+    // Loading state on submit
+    form.addEventListener('submit', () => {
+      submitBtn.classList.add('loading');
+      submitBtn.disabled = true;
+    });
+  </script>
+</body>
+</html>
